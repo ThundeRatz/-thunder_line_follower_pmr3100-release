@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot name="thunder_line_follower_pmr3100"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+ <!-- Global argument used in .gazebo file to set sensor visual properties -->
+  <xacro:arg name="debug_sensors" default="false" />
+
+  <!-- Import all Gazebo plugins -->
+  <xacro:include filename="$(find thunder_line_follower_pmr3100)/urdf/thunder_line_follower_pmr3100.gazebo" />
+
+  <!-- Code exported from SolidWorks -->
+  <xacro:include filename="$(find thunder_line_follower_pmr3100)/urdf/thunder_line_follower_pmr3100.urdf" />
+
+  <!-- Definition of motor -->
+  <xacro:include filename="$(find thunder_line_follower_pmr3100)/urdf/motor.xacro"/>
+
+  <xacro:include filename="$(find thunder_line_follower_pmr3100)/urdf/colors.xacro"/>
+
+  <xacro:motor joint_name="rodaesquerda" gear_rate="1"/>
+  <xacro:motor joint_name="rodadireita" gear_rate="1"/>
+
+</robot>

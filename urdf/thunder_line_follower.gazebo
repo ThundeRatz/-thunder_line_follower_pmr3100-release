@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+
+<!-- Ref: http://gazebosim.org/tutorials/?tut=ros_urdf
+    http://answers.gazebosim.org/question/13506/preventing-bouncing-of-object/
+    -->
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+   <xacro:include filename="$(find thunder_line_follower_pmr3100)/urdf/sensors/line.sensor" />
+   <xacro:include filename="$(find thunder_line_follower_pmr3100)/urdf/sensors/ultrasonic.sensor" />
+
+  <!-- Corpo -->
+  <gazebo reference="base_link">
+    <mu1 value="0.1"/>
+    <mu2 value="0.1"/>
+    <kp value="1e12" />
+    <kd value="1.0" />
+  </gazebo>
+
+  <!-- Rodas -->
+  <xacro:macro name="roda" params="side">
+    <gazebo reference="roda${side}_link">
+      <mu1 value="2.0"/>
+      <mu2 value="2.0"/>
+      <kp value="1e12" />
+      <kd value="1.0" />
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:roda side="esquerda"/>
+  <xacro:roda side="direita"/>
+
+  <!-- Load gazebo plugin to control the robot -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/thunder_line_follower_pmr3100</robotNamespace>
+    </plugin>
+  </gazebo>
+
+  <xacro:line_sensor link_reference="line1_link" topic_name="line_sensor_1/reading" visual="$(arg debug_sensors)" />
+  <xacro:line_sensor link_reference="line2_link" topic_name="line_sensor_2/reading" visual="$(arg debug_sensors)" />
+  <xacro:line_sensor link_reference="line3_link" topic_name="line_sensor_3/reading" visual="$(arg debug_sensors)" />
+  <xacro:line_sensor link_reference="line4_link" topic_name="line_sensor_4/reading" visual="$(arg debug_sensors)" />
+  <xacro:line_sensor link_reference="line5_link" topic_name="line_sensor_5/reading" visual="$(arg debug_sensors)" />
+
+  <xacro:ultrasonic_sensor link_reference="sonar_link" topic_name="ultrasonic/reading" visual="$(arg debug_sensors)" />
+
+</robot>

@@ -1,0 +1,42 @@
+<!-- Reference:
+https://github.com/ros/urdf_sim_tutorial -->
+
+<launch>
+
+  <arg name="debug" default="false"/>
+  <arg name="debug_sensors" default="false"/>
+  <arg name="gui" default="true"/>
+  <arg name="paused" default="true"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="recording" default="false"/>
+  <arg name="world_name" default="pista.world"/>
+  <arg name="model" default="$(find thunder_line_follower_pmr3100)/urdf/modelo_carrinho.xacro"/>
+  <arg name="x" default="0.1" />
+  <arg name="y" default="0.15" />
+  <arg name="yaw" default="0" />
+
+  <!-- Add our project workspace to Gazebo index to load custom models -->
+  <env name="GAZEBO_RESOURCE_PATH" value="$(find thunder_line_follower_pmr3100)"/>
+  <env name="GAZEBO_MODEL_PATH" value="$(find thunder_line_follower_pmr3100)/models"/>
+
+  <!-- Load world model -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="verbose" value="true" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="recording" value="$(arg recording)"/>
+    <arg name="world_name" value="$(find thunder_line_follower_pmr3100)/worlds/$(arg world_name)"/>
+  </include>
+
+  <!-- Load robot file -->
+  <include file="$(find thunder_line_follower_pmr3100)/launch/spawn_robot.launch">
+    <arg name="model" value="$(arg model)" />
+    <arg name="x" value="$(arg x)" />
+    <arg name="y" value="$(arg y)" />
+    <arg name="yaw" value="$(arg yaw)" />
+    <arg name="debug_sensors" value="$(arg debug_sensors)" />
+  </include>
+
+</launch>
